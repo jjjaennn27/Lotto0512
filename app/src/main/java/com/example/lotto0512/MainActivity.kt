@@ -11,31 +11,45 @@ fun getRandomLottoNumber () : Int{
     return Random().nextInt(45)+1
 }
 
-
-fun getRandomLottoNumbers (): MutableList<Int>{
+fun getRandomLottoNumbers(): MutableList<Int>{
     val lottoNumbers = mutableListOf<Int>()
 
-    while(true) {
-        val number = getRandomLottoNumber()
-        var flag_exist = 0
-        if (lottoNumbers.size < 1) {
-            lottoNumbers.add(number)
-            continue
-        } else {
-            for (j in 0..lottoNumbers.size) {
-                if (number == lottoNumbers[j]) {
-                    flag_exist = 1
-                    break
-                }
-            }
-            if (flag_exist == 0)
-                lottoNumbers.add(number)
-            if (lottoNumbers.size >= 6)
-                break
+    for(i in 1..6){
+        var number = 0
+        do{
+            number = getRandomLottoNumber()
         }
+        while(lottoNumbers.contains(number))
+        lottoNumbers.add(number)
     }
-            return lottoNumbers
-        }
+    return lottoNumbers
+}
+
+
+//fun getRandomLottoNumbers (): MutableList<Int>{
+//    val lottoNumbers = mutableListOf<Int>()
+//
+//    while(true) {
+//        val number = getRandomLottoNumber()
+//        var flag_exist = 0
+//        if (lottoNumbers.size < 1) {
+//            lottoNumbers.add(number)
+//            continue
+//        } else {
+//            for (j in 0..lottoNumbers.size) {
+//                if (number == lottoNumbers[j]) {
+//                    flag_exist = 1
+//                    break
+//                }
+//            }
+//            if (flag_exist == 0)
+//                lottoNumbers.add(number)
+//            if (lottoNumbers.size >= 6)
+//                break
+//        }
+//    }
+//            return lottoNumbers
+//        }
 
 
 class MainActivity : AppCompatActivity() {
