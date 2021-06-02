@@ -15,6 +15,7 @@ class ResultActivity : AppCompatActivity() {
 
         val result = intent.getIntegerArrayListExtra("result") ?: return
         val sConstellation = intent.getStringExtra("constellation")
+        val sSimpleDate = intent.getStringExtra("SimpleDate")
 
         val result_sorted = result?.sorted()
 
@@ -22,10 +23,12 @@ class ResultActivity : AppCompatActivity() {
         val lottoBallImageId02 = R.drawable.ball_02
         val lottoBallImageId03 = R.drawable.ball_03
 
+
         sConstellation?.let{
             val resultLabel = findViewById<TextView>(R.id.resultLabel)
-            resultLabel.text = "${sConstellation}의 ${SimpleDateFormat("yyyy년 MM월 dd일").format(Date())} 로또 번호입니다."
+            resultLabel.text = "${sConstellation}의 ${sSimpleDate} 로또 번호입니다"
         }
+
 
         val imageView1 = findViewById<ImageView>(R.id.imageView1)
         val imageView2 = findViewById<ImageView>(R.id.imageView2)

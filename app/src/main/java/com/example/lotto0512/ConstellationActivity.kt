@@ -5,6 +5,7 @@ import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.DatePicker
 import android.widget.TextView
 import java.util.*
@@ -20,49 +21,72 @@ class ConstellationActivity : AppCompatActivity() {
         val datePicker = findViewById<DatePicker>(R.id.datePicker)
         val btnConstellationResult = findViewById<Button>(R.id.btnConstellationResult)
         val txtConstell = findViewById<TextView>(R.id.txtConstell)
-        txtConstell.text = makeConstellationString(datePicker.month,datePicker.dayOfMonth)
+        txtConstell.text = makeConstellationString(datePicker.month, datePicker.dayOfMonth)
 
         btnConstellationResult.setOnClickListener {
-            val intent = Intent (this, ResultActivity::class.java)
+            val intent = Intent(this, ResultActivity::class.java)
             intent.putIntegerArrayListExtra("result", ArrayList(getShuffledLottoNumbers(txtConstell.text.toString())))
-            intent.putExtra("constellation", makeConstellationString(datePicker.month+1, datePicker.dayOfMonth))
+            intent.putExtra("constellation", makeConstellationString(datePicker.month , datePicker.dayOfMonth))
+
+            val SimpleDate = ""+datePicker.year + "년" + datePicker.month+1 +"월" + datePicker.dayOfMonth+"일"
+            intent.putExtra("SimpleDate",SimpleDate)
+
             startActivity(intent)
 
         }
-    }
-}
 
-fun getShuffledLottoNumbersFromHash(str: String): MutableList<Int> {
-    val list = mutableListOf<Int>()
+        val calendar = Calendar.getInstance()
 
-    for (number in 1..45) {
-        list.add(number)
-    }
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                object : CalendarView.OnDateChangeListener, DatePicker.OnDateChangedListener {
+                    override fun onSelectedDayChange(view: CalendarView, year: Int, month: Int, dayOfMonth: Int) {
+                        TODO("Not yet implemented")
+                    }
 
-    val targetString = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SS", Locale.KOREA).format(Date())+str
-    list.shuffle(Random(targetString.hashCode().toLong()))
 
-    return list.subList(0,6)
-}
 
-private fun makeConstellationString(month: Int, dayOfMonth: Int): String {
-    val target = "${month+1}${String.format("%02d",dayOfMonth)}".toInt()
+                    override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                        txtConstell.text=makeConstellationString(datePicker.month,datePicker.dayOfMonth)
+                    }
 
-    when (target) {
-        in 101..119 -> return "염소자리"
-        in 120..218 -> return "물병자리"
-        in 219..320 -> return "물고기자리"
-        in 321..419 -> return "양자리"
-        in 420..520 -> return "황소자리"
-        in 521..621 -> return "쌍둥이자리"
-        in 622..722 -> return "게자리"
-        in 723..822 -> return "사자자리"
-        in 823..923 -> return "처녀자리"
-        in 924..1022 -> return "천칭자리"
-        in 1023..1122-> return "전갈자리"
-        in 1123..1224-> return "사수자리"
-        in 1225..1231 -> return "염소자리"
-        else -> return "기타별자리"
+                }
+
+        )
     }
 
+
+    fun getShuffledLottoNumbersFromHash(str: String): MutableList<Int> {
+        val list = mutableListOf<Int>()
+
+        for (number in 1..45) {
+            list.add(number)
+        }
+
+        val targetString = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(Date()) + str
+        list.shuffle(Random(targetString.hashCode().toLong()))
+
+        return list.subList(0, 6)
+    }
+
+    private fun makeConstellationString(month: Int, dayOfMonth: Int): String {
+        val target = "${month + 1}${String.format("%02d", dayOfMonth)}".toInt()
+
+        when (target) {
+            in 101..119 -> return "염소자리"
+            in 120..218 -> return "물병자리"
+            in 219..320 -> return "물고기자리"
+            in 321..419 -> return "양자리"
+            in 420..520 -> return "황소자리"
+            in 521..621 -> return "쌍둥이자리"
+            in 622..722 -> return "게자리"
+            in 723..822 -> return "사자자리"
+            in 823..923 -> return "처녀자리"
+            in 924..1022 -> return "천칭자리"
+            in 1023..1122 -> return "전갈자리"
+            in 1123..1224 -> return "사수자리"
+            in 1225..1231 -> return "염소자리"
+            else -> return "기타별자리"
+        }
+
+    }
 }
