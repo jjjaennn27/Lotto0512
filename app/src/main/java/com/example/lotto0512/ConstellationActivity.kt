@@ -28,7 +28,8 @@ class ConstellationActivity : AppCompatActivity() {
             intent.putIntegerArrayListExtra("result", ArrayList(getShuffledLottoNumbers(txtConstell.text.toString())))
             intent.putExtra("constellation", makeConstellationString(datePicker.month , datePicker.dayOfMonth))
 
-            val SimpleDate = ""+datePicker.year + "년" + datePicker.month+1 +"월" + datePicker.dayOfMonth+"일"
+
+            val SimpleDate = ""+datePicker.year + "년" + (datePicker.month+1) +"월" + datePicker.dayOfMonth+"일"
             intent.putExtra("SimpleDate",SimpleDate)
 
             startActivity(intent)
@@ -69,7 +70,7 @@ class ConstellationActivity : AppCompatActivity() {
     }
 
     private fun makeConstellationString(month: Int, dayOfMonth: Int): String {
-        val target = "${month + 1}${String.format("%02d", dayOfMonth)}".toInt()
+        val target = "${month}${String.format("%02d", dayOfMonth)}".toInt()
 
         when (target) {
             in 101..119 -> return "염소자리"
